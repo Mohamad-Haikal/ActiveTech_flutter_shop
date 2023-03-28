@@ -1,12 +1,11 @@
-<div align="center" id="top"> 
+<!-- <div align="center" id="top"> 
   <img src="https://github.com/rahul-badgujar/EShopee-Flutter-eCommerce-App/blob/master/assets/images/launcher_icon_with_bg.png" alt="EShopee: Flutter eCommerce App" width="150" height="150"/>
 
 &#xa0;
 
-  <!-- <a href="https://e_commerce_app_flutter.netlify.app">Demo</a> -->
 </div>
 
-<h1 align="center">EShopee: Flutter eCommerce App</h1>
+<h1 align="center">Active Tech E-Shop</h1>
 
 <p align="center">
   <img alt="Github top language" src="https://img.shields.io/github/languages/top/rahul-badgujar/e_commerce_app_flutter?color=56BEB8">
@@ -15,14 +14,14 @@
 
   <img alt="Repository size" src="https://img.shields.io/github/repo-size/rahul-badgujar/e_commerce_app_flutter?color=56BEB8">
 
-  <img alt="License" src="https://img.shields.io/github/license/rahul-badgujar/e_commerce_app_flutter?color=56BEB8">
+  <img alt="License" src="https://img.shields.io/github/license/rahul-badgujar/e_commerce_app_flutter?color=56BEB8"> -->
 
   <!-- <img alt="Github issues" src="https://img.shields.io/github/issues/{{YOUR_GITHUB_USERNAME}}/e_commerce_app_flutter?color=56BEB8" />
 
   <img alt="Github forks" src="https://img.shields.io/github/forks/{{YOUR_GITHUB_USERNAME}}/e_commerce_app_flutter?color=56BEB8" />
 
   <img alt="Github stars" src="https://img.shields.io/github/stars/{{YOUR_GITHUB_USERNAME}}/e_commerce_app_flutter?color=56BEB8" /> -->
-</p>
+<!-- </p>
 
 ## Status
 
@@ -108,4 +107,4 @@ The following Resources were used in this project:
 - [Stack Overflow: Flutter](https://stackoverflow.com/questions/tagged/flutter)
 - [FlutterFire Official Docs](https://firebase.flutter.dev/docs/overview/)
 - [UI Inspiration](https://github.com/abuanwar072/E-commerce-Complete-Flutter-UI)
-- [Icons](https://www.flaticon.com/)
+- [Icons](https://www.flaticon.com/) -->
