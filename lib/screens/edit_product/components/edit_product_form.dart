@@ -123,11 +123,11 @@ class _EditProductFormState extends State<EditProductForm> {
           list: List.generate(productDetails.searchTags.length, (index) => productDetails.searchTags[index]),
           createTagOnSubmit: true,
           chipColor: kPrimaryColor,
-          onSubmitted: (value) {
-            productDetails.addSearchTag(value.toLowerCase());
-            _tagStateKey.currentState!.setState(() {});
-            Logger().d(productDetails.searchTags);
-          },
+          // onSubmitted: (value) {
+          //   productDetails.addSearchTag(value.toLowerCase());
+          //   _tagStateKey.currentState!.setState(() {});
+          //   Logger().d(productDetails.searchTags);
+          // },
         );
         /*return Tags(
           key: _tagStateKey,
