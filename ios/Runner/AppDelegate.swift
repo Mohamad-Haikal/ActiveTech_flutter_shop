@@ -11,7 +11,7 @@ import Firebase
         FirebaseApp.configure()
         
         Fabric.with([Crashlytics.self])
-        
+        Fabric.sharedSDK().debug = true
         Crashlytics.sharedInstance().delegate = self
         Crashlytics.sharedInstance().crash()
         
