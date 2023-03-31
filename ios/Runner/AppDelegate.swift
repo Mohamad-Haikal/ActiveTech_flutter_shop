@@ -3,18 +3,20 @@ import Flutter
 import FirebaseCrashlytics
 import Firebase
 
-@UIApplicationMain
-@objc class AppDelegate: FlutterAppDelegate, CrashlyticsDelegate {
+@main
+class AppDelegate: FlutterAppDelegate, CrashlyticsDelegate {
     
     override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         FirebaseApp.configure()
-        Fabric.with([Crashlytics.self])
-        Crashlytics.sharedInstance().delegate = self
         
-        let controller = window?.rootViewController as! FlutterViewController
-        let batteryChannel = FlutterMethodChannel(name: "samples.flutter.dev/battery", binaryMessenger: controller.binaryMessenger)
-        batteryChannel.setMethodCallHandler({
+        Crashlytics.crashlytics().delegate = self
+        Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(true)
+        Crashlytics.crashlytics().checkForUnsentReports { (_) in }
+        
+        let controller: FlutterViewController = window?.rootViewController as! FlutterViewController
+        let channel = FlutterMethodChannel(name: "samples.flutter.dev/battery", binaryMessenger: controller.binaryMessenger)
+        channel.setMethodCallHandler({
             [weak self] (call: FlutterMethodCall, result: @escaping FlutterResult) -> Void in
             guard call.method == "getBatteryLevel" else {
                 result(FlutterMethodNotImplemented)
@@ -22,17 +24,17 @@ import Firebase
             }
             self?.getBatteryLevel(result: result)
         })
-        
         GeneratedPluginRegistrant.register(with: self)
-        
+
+        // Enable debugging mode
         #if DEBUG
         FlutterDebugPlugin.sharedInstance()?.startObservingApplication()
         #endif
-        
+        print("Application launched")
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
-    func getBatteryLevel(result: FlutterResult) {
+    private func getBatteryLevel(result: FlutterResult) {
         let device = UIDevice.current
         device.isBatteryMonitoringEnabled = true
         if device.batteryState == UIDevice.BatteryState.unknown {
@@ -44,8 +46,7 @@ import Firebase
         }
     }
     
-    func crashlyticsDidDetectReport(forLastExecution report: CLSReport) {
+    func crashlyticsDidDetectReport(forLastExecution report: CrashlyticsReport) {
         print("Crash detected: \(report)")
     }
-    
 }
