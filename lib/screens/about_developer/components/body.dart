@@ -49,13 +49,6 @@ class Body extends StatelessWidget {
                     fontWeight: FontWeight.w900,
                   ),
                 ),
-                // Text(
-                //   "PCCoE Pune",
-                //   style: TextStyle(
-                //     fontSize: 21,
-                //     fontWeight: FontWeight.w500,
-                //   ),
-                // ),
                 SizedBox(height: getProportionateScreenHeight(30)),
                 Row(
                   children: [

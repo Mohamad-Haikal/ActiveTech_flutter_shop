@@ -11,7 +11,7 @@
 // }
 
 // class StripeServices {
-//   static String apiBase = 'https://apu.stripe.com/v1';
+//   static String apiBase = 'https://api.stripe.com/v1';
 //   static String paymentApiUrl = '${StripeServices.apiBase}/payment_intents';
 //   static Uri paymentApiUri = Uri.parse(apiBase);
 //   static String secret = 'sk_test_51MiOFqCca33SRveICK6yEM7AqPXhbRVxtWgkkDm7K8dYZ79CbWWr4aAVII7fxExduvgxmDkSQSjmn9ukjXF6Crfg00nZwSM6of';
