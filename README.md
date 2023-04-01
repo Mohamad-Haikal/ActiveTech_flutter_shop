@@ -1,34 +1,18 @@
-<div align="center" id="top"> 
-  <img src="https://github.com/Mohamad-Haikal/ActiveTech_flutter_shop/blob/master/assets/images/launcher-icon.png" alt="App Icon" width="150" height="150" style="border: 5px solid #555; border-radius: 50%; box-shadow: 2px 2px 5px #888;">
+<div align="center" id="top" style="background-color: #f2f2f2;">
+  <img src="https://github.com/Mohamad-Haikal/ActiveTech_flutter_shop/blob/master/assets/images/launcher-icon.png" alt="App Icon" width="250" height="250" style="border: 5px solid #555; border-radius: 50%; box-shadow: 2px 2px 5px #888;">
 </div>
+
 
 
 
 <h1 align="center">Active Tech E-Shop</h1>
 
-<!-- <p align="center">
-  <img alt="Github top language" src="https://img.shields.io/github/languages/top/rahul-badgujar/e_commerce_app_flutter?color=56BEB8">
 
-  <img alt="Github language count" src="https://img.shields.io/github/languages/count/rahul-badgujar/e_commerce_app_flutter?color=56BEB8">
-
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/rahul-badgujar/e_commerce_app_flutter?color=56BEB8">
-
-  <img alt="License" src="https://img.shields.io/github/license/rahul-badgujar/e_commerce_app_flutter?color=56BEB8">
-</p> -->
-
-## Status
-
-<h4 align="center">
-	E-Shop App 🚀 Under testing...
-</h4>
-
-<hr>
 
 <p align="center">
   <a href="#about">About</a> &#xa0; | &#xa0; 
   <a href="#features">Features</a> &#xa0; | &#xa0;
   <a href="#screenshots">Screenshots</a> &#xa0; | &#xa0;
-  <a href="#installation">Installation</a> &#xa0; | &#xa0;
   <a href="#resources">Resources</a> &#xa0; | &#xa0;
   <a href="#author">Author</a>
 </p>
@@ -41,24 +25,19 @@ This is an e-commerce application developed using Flutter and Firebase. The app 
 
 ## Features
 
-- User authentication and related services
-- Add your products
-- View products added by other users
-- View products of different categories
-- Maintain a shopping cart
-- Mark products as your favorites
-- Manage your addresses
-- Review the products you buy
+
+- User authentication with related services such as password reset and email verification.
+- Add your own products to the platform.
+- Browse and view products added by other users.
+- Filter and browse products by different categories.
+- Maintain a shopping cart with the ability to edit and remove items.
+- Mark products as your favorites for easy access.
+- Manage your shipping addresses and view your order history.
+- Leave reviews for products you have purchased.
 
 ## Screenshots
 
 Here are some screenshots of the app. You can find more screenshots in the `screenshots` folder.
-
-## Installation
-
-1. Clone the repository.
-2. Set up a Firebase project and add the necessary configuration files to the app.
-3. Build and run the app on your device or emulator.
 
 ## Resources
 
@@ -69,4 +48,4 @@ The following resources were used in this project:
 
 ## Author
 
-This app was developed by Mohamad Haikal.
+This app was developed by <b>Mohamad Haikal</b>.
