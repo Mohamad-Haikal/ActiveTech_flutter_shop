@@ -1,6 +1,7 @@
-<div align="center" id="top">
-  <img src="https://github.com/Mohamad-Haikal/ActiveTech_flutter_shop/blob/master/assets/images/launcher-icon.png" alt="App Icon" width="150" height="150" style="box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);"/>
+<div align="center" id="top"> 
+  <img src="https://github.com/Mohamad-Haikal/ActiveTech_flutter_shop/blob/master/assets/images/launcher-icon.png" alt="App Icon" width="150" height="150" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);"/>
 </div>
+
 
 
 <h1 align="center">Active Tech E-Shop</h1>
