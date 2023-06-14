@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:admin_dashboard/prettyPrint.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import '../models/product_model.dart';
+import 'package:provider/provider.dart';
+import 'package:admin_dashboard/models/product_model.dart';
 
 class ProductsProvider with ChangeNotifier {
   List<Product> _items = [];
@@ -12,7 +14,7 @@ class ProductsProvider with ChangeNotifier {
     return [..._items];
   }
 
-  Future<void> fetchAndSetProducts() async {
+  Future getProducts() async {
     final List<Product> loadedProducts = [];
     try {
       await FirebaseFirestore.instance.collection('products').get().then((QuerySnapshot querySnapshot) {
@@ -28,8 +30,17 @@ class ProductsProvider with ChangeNotifier {
     }
   }
 
-  Product findById(String id) {
-    return _items.firstWhere((product) => product.id == id);
+  Future<Product> findById(String id) async {
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection('products').doc(id).get();
+
+    if (snapshot.exists) {
+      // تم العثور على الوثيقة
+      return Product.fromMap((snapshot.data()) as Map<String, dynamic>, id);
+      // يمكنك استخدام البيانات هنا
+    } else {
+      // الوثيقة غير موجودة
+      return Product.fromMap({}, 'null');
+    }
   }
 
   Future<void> addProduct(Product product) async {
@@ -41,7 +52,7 @@ class ProductsProvider with ChangeNotifier {
         name: product.name,
         description: product.description,
         price: product.price,
-        imageUrl: product.imageUrl,
+        images: product.images,
       );
       _items.add(newProduct);
       notifyListeners();

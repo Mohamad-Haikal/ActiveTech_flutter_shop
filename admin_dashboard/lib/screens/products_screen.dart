@@ -1,151 +1,118 @@
+import 'package:data_table_2/data_table_2.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:sizer/sizer.dart';
+import 'package:admin_dashboard/models/product_model.dart';
 import 'package:admin_dashboard/providers/products_provider.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:admin_dashboard/prettyPrint.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:admin_dashboard/screens/edit_product_screen.dart';
-import 'package:admin_dashboard/widgets/app_drawer.dart';
-import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-import 'package:optimized_cached_image/optimized_cached_image.dart';
 import 'package:provider/provider.dart';
+import 'package:admin_dashboard/widgets/custom_app_bar.dart';
+import 'package:admin_dashboard/widgets/custom_side_menu.dart';
+import 'package:admin_dashboard/screens/login_screen.dart';
 
 class ProductsScreen extends StatelessWidget {
-  static const routeName = '/products';
+  static const String route = '/products';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Products'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              // Navigator.of(context).pushNamed(EditProductScreen.routeName);
-            },
-          ),
-        ],
-      ),
-      drawer: AppDrawer(),
-      body: FutureBuilder(
-        future: FirebaseFirestore.instance.collection('products').get(),
-        builder: (ctx, snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text('Something went wrong!'),
-            );
-          }
-
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          final documents = snapshot.data?.docs;
-          return RefreshIndicator(
-            onRefresh: () async {
-              await Future.delayed(Duration(seconds: 1));
-            },
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(decelerationRate: ScrollDecelerationRate.fast),
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 300,
-                  childAspectRatio: 3 / 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                ),
-                padding: const EdgeInsets.all(10.0),
-                itemCount: documents?.length,
-                itemBuilder: (ctx, i) => ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: GridTile(
-                    child: GestureDetector(
-                      onTap: () {
-                        // Navigator.of(context).pushNamed(EditProductScreen.routeName, arguments: documents[i].id);
-                      },
-                      child: OptimizedCacheImage(
-                        useOldImageOnUrlChange: true,
-                        progressIndicatorBuilder: (context, url, downloadProgress) =>
-                            Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                        filterQuality: FilterQuality.low,
-                        imageUrl: (documents?[i]['images'] as List)[0] ?? '',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    footer: GridTileBar(
-                      backgroundColor: Colors.black54,
-                      title: Text(
-                        documents?[i]['title'] ?? '',
-                        textAlign: TextAlign.center,
-                      ),
-                      subtitle: Text(
-                        '\$${documents?[i]['discount_price'].toStringAsFixed(2)}',
-                        textAlign: TextAlign.center,
-                      ),
-                      trailing: IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (ctx) => AlertDialog(
-                              title: Text('Are you sure?'),
-                              content: Text('Do you want to remove the product from the cart?'),
-                              actions: [
-                                TextButton(
-                                  child: Text('No'),
-                                  onPressed: () {
-                                    Navigator.of(ctx).pop();
+    if (FirebaseAuth.instance.currentUser != null) {
+      return Scaffold(
+        extendBodyBehindAppBar: true,
+        body: Row(
+          children: [
+            CustomSideMenu(initPageRoute: ProductsScreen.route),
+            Flexible(
+              child: Column(
+                children: [
+                  CustomAppBar(
+                    titleWidget: 'Products',
+                  ),
+                  Expanded(
+                    child: Card(
+                      margin: const EdgeInsets.all(16),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                      elevation: 15,
+                      clipBehavior: Clip.antiAlias,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      child: FutureBuilder(
+                        future: Provider.of<ProductsProvider>(context, listen: false).getProducts(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) {
+                            return const Center(
+                              child: Text('Something went wrong!'),
+                            );
+                          }
+                          if (snapshot.connectionState == ConnectionState.done && Provider.of<ProductsProvider>(context).items.isNotEmpty) {
+                            pprint(Provider.of<ProductsProvider>(context).items);
+                            return RefreshIndicator(
+                              onRefresh: () async {
+                                await Future.delayed(const Duration(seconds: 1));
+                              },
+                              child: DataTable2(
+                                empty: Text('empty'),
+                                sortArrowIcon: Icons.arrow_downward_rounded,
+                                smRatio: 0.3,
+                                sortColumnIndex: 1,
+                                columns: const [
+                                  DataColumn2(
+                                    label: Text('Image'),
+                                    size: ColumnSize.S,
+                                  ),
+                                  DataColumn2(
+                                    label: Text('Name'),
+                                  ),
+                                  DataColumn2(
+                                    label: Text('description'),
+                                  ),
+                                  DataColumn2(
+                                    label: Text('price'),
+                                  ),
+                                  DataColumn2(
+                                    label: Text('id'),
+                                  ),
+                                ],
+                                rows: List.generate(
+                                  Provider.of<ProductsProvider>(context).items.length,
+                                  (index) {
+                                    Product product = Provider.of<ProductsProvider>(context).items[index];
+                                    return DataRow2(
+                                      specificRowHeight: 7.sp,
+                                      cells: [
+                                        DataCell(SizedBox.expand(
+                                            child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Image.network(
+                                            product.images.isNotEmpty ? product.images.first : '',
+                                            filterQuality: FilterQuality.low,
+                                          ),
+                                        ))),
+                                        DataCell(Text(product.name)),
+                                        DataCell(Text(product.description)),
+                                        DataCell(Text(product.price.toString())),
+                                        DataCell(Text(product.id)),
+                                      ],
+                                    );
                                   },
                                 ),
-                                TextButton(
-                                  child: Text('Yes'),
-                                  onPressed: () async {
-                                    try {
-                                      await FirebaseFirestore.instance.collection('products').doc(documents?[i].id).delete();
-                                      Navigator.of(ctx).pop();
-                                      Navigator.of(ctx).pushReplacementNamed(routeName);
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                          duration: Duration(seconds: 5),
-                                          content: Text(
-                                            'Deleting Successfulled!',
-                                            style: TextStyle(color: Colors.green),
-                                          ),
-                                        ),
-                                      );
-                                    } catch (error) {
-                                      print(error);
-                                      Navigator.of(ctx).pop();
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                          duration: Duration(seconds: 5),
-                                          content: Text(
-                                            'Deleting failed!',
-                                            style: TextStyle(color: Colors.red),
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                  },
-                                ),
-                              ],
-                            ),
+                              ),
+                            );
+                          }
+                          return const Center(
+                            child: CircularProgressIndicator(),
                           );
                         },
-                        color: Theme.of(context).errorColor,
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
             ),
-          );
-        },
-      ),
-    );
+          ],
+        ),
+      );
+    } else {
+      Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.route, (route) => false);
+      return SizedBox();
+    }
   }
 }

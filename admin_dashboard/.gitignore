@@ -42,3 +42,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+
+admin_dashboard/assets/firstflutterapp-9b91a-firebase-adminsdk-mv12e-1c70984278.json

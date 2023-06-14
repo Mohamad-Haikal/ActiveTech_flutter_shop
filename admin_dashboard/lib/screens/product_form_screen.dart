@@ -1,4 +1,5 @@
 import 'package:admin_dashboard/models/product_model.dart';
+import 'package:admin_dashboard/prettyPrint.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,7 +25,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     name: '',
     price: 0,
     description: '',
-    imageUrl: '',
+    images: [''],
   );
 
   var _initValues = {
@@ -43,25 +44,26 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     super.initState();
   }
 
-  @override
-  void didChangeDependencies() {
-    if (_isInit) {
-      final productId = ModalRoute.of(context)!.settings.arguments as String;
-      if (productId != null) {
-        _editedProduct = Provider.of<ProductsProvider>(context, listen: false).findById(productId);
-        _initValues = {
-          'name': _editedProduct.name,
-          'description': _editedProduct.description,
-          'price': _editedProduct.price.toString(),
-          //'imageUrl': _editedProduct.imageUrl,
-          'imageUrl': '',
-        };
-        _imageUrlController.text = _editedProduct.imageUrl;
-      }
-    }
-    _isInit = false;
-    super.didChangeDependencies();
-  }
+  // @override
+  // void didChangeDependencies() async {
+  //   if (_isInit) {
+  //     final productId = ModalRoute.of(context)!.settings.arguments as String;
+  //     if (productId != null) {
+  //       _editedProduct = await Provider.of<ProductsProvider>(context, listen: false).findById(productId) ??
+  //           Product(id: 'id', name: 'name', description: 'description', price: 0.0, images: 'imageUrl');
+  //       _initValues = {
+  //         'name': _editedProduct.name,
+  //         'description': _editedProduct.description,
+  //         'price': _editedProduct.price.toString(),
+  //         //'imageUrl': _editedProduct.imageUrl,
+  //         'imageUrl': '',
+  //       };
+  //       _imageUrlController.text = _editedProduct.images;
+  //     }
+  //   }
+  //   _isInit = false;
+  //   super.didChangeDependencies();
+  // }
 
   @override
   void dispose() {
@@ -164,7 +166,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                           name: value!,
                           description: _editedProduct.description,
                           price: _editedProduct.price,
-                          imageUrl: _editedProduct.imageUrl,
+                          images: _editedProduct.images,
                         );
                       },
                     ),
@@ -197,7 +199,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                           name: _editedProduct.name,
                           price: double.parse(value!),
                           description: _editedProduct.description,
-                          imageUrl: _editedProduct.imageUrl,
+                          images: _editedProduct.images,
                         );
                       },
                     ),
@@ -227,7 +229,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                           name: _editedProduct.name,
                           price: _editedProduct.price,
                           description: value!,
-                          imageUrl: _editedProduct.imageUrl,
+                          images: _editedProduct.images,
                         );
                       },
                     ),
@@ -257,7 +259,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                           name: _editedProduct.name,
                           price: _editedProduct.price,
                           description: _editedProduct.description,
-                          imageUrl: value!,
+                          images: [value!],
                         );
                       },
                     ),

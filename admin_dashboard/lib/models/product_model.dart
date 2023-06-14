@@ -3,33 +3,36 @@ class Product {
   final String name;
   final String description;
   final double price;
-  final String imageUrl;
+  final List<String> images;
 
   Product({
     required this.id,
     required this.name,
     required this.description,
     required this.price,
-    required this.imageUrl,
+    required this.images,
   });
 
   factory Product.fromMap(Map<String, dynamic> data, String documentId) {
+    List<String> images = [];
+    for (var image in data['images']) {
+      images.add(image);
+    }
     return Product(
       id: documentId,
-      name: data['name'] ?? '',
+      name: data['title'] ?? '',
       description: data['description'] ?? '',
-      price: (data['price'] ?? 0.0).toDouble(),
-      imageUrl: data['imageUrl'] ?? '',
+      price: (data['discount_price'] ?? 0.0).toDouble(),
+      images: images,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'name': name,
+      'title': name,
       'description': description,
-      'price': price,
-      'imageUrl': imageUrl,
-
+      'discount_price': price,
+      'images': images,
     };
   }
 }
